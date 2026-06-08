@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Mental Health Case Management Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #07192f 0%, #0a1e36 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #33e0c4;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #33e0c4;
+        }
+        
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #ffca58;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #33e0c4;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .nav-tab {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab.active {
+            color: #33e0c4;
+            border-bottom-color: #33e0c4;
+        }
+        
+        .nav-tab:hover {
+            color: white;
+        }
+        
+        .content-area {
+            min-height: calc(100vh - 200px);
+            padding: 30px 0;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 224, 196, 0.3);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            border-color: #33e0c4;
+            transform: translateY(-5px);
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #33e0c4;
+            margin-bottom: 15px;
+        }
+        
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #ffca58;
+            margin-bottom: 10px;
+        }
+        
+        .metric-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 224, 196, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #33e0c4;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(51, 224, 196, 0.3);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #ffca58;
+        }
+        
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(51, 224, 196, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #33e0c4;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .form-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background: #33e0c4;
+            color: #07192f;
+        }
+        
+        .btn-primary:hover {
+            background: #2bc4aa;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .search-container {
+            margin-bottom: 30px;
+        }
+        
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            border: 2px solid rgba(51, 224, 196, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #33e0c4;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .contact-log {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #33e0c4;
+        }
+        
+        .contact-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .contact-date {
+            color: #ffca58;
+            font-weight: 600;
+        }
+        
+        .contact-type {
+            background: rgba(51, 224, 196, 0.2);
+            color: #33e0c4;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        .contact-notes {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px 0;
+            text-align: center;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 50px;
+        }
+        
+        .footer a {
+            color: #33e0c4;
+            text-decoration: none;
+        }
+        
+        .crisis-alert {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            border: 2px solid #ff6666;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-active { background: #33e0c4; }
+        .status-pending { background: #ffca58; }
+        .status-critical { background: #ff4444; }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(51, 224, 196, 0.3);
+        }
+        
+        .data-table th {
+            background: rgba(51, 224, 196, 0.1);
+            color: #33e0c4;
+            font-weight: 600;
+        }
+        
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-tabs {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Mental Health Case Management Hub</div>
+                <div class="status-bar">
+                    <div class="status-item">
+                        <div class="status-dot"></div>
+                        <span>IGM Status: Active</span>
+                    </div>
+                    <div class="status-item">
+                        <span>Cases: 247</span>
+                    </div>
+                    <div class="status-item">
+                        <span>Alerts: 3</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('dashboard')">Dashboard</button>
+            <button class="nav-tab" onclick="showTab('intake')">Client Intake</button>
+            <button class="nav-tab" onclick="showTab('contact-log')">Contact Log</button>
+            <button class="nav-tab" onclick="showTab('search')">Search Cases</button>
+            <button class="nav-tab" onclick="showTab('reports')">Reports</button>
+        </nav>
+
+        <div class="content-area">
+            <!-- Dashboard Tab -->
+            <div id="dashboard-tab" class="tab-content">
+                <div class="crisis-alert">
+                    <strong>Crisis Alert:</strong> 3 clients require immediate attention - Review crisis assessments pending
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <div class="card-title">Active Cases</div>
+                        <div class="metric-value">247</div>
+                        <div class="metric-label">Currently managed clients</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-title">Crisis Interventions</div>
+                        <div class="metric-value">12</div>
+                        <div class="metric-label">This month</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-title">Treatment Plans</div>
+                        <div class="metric-value">189</div>
+                        <div class="metric-label">Active plans</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-title">Insurance Audits</div>
+                        <div class="metric-value">94%</div>
+                        <div class="metric-label">Compliance rate</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-title">Outcome Reports</div>
+                        <div class="metric-value">78%</div>
+                        <div class="metric-label">Positive outcomes</div>
+                    </div>
+                    
+                    <div class="dashboard-card">
+                        <div class="card-title">Documentation</div>
+                        <div class="metric-value">98%</div>
+                        <div class="metric-label">Completion rate</div>
+                    </div>
+                </div>
+
+                <div class="form-container">
+                    <div class="section-title">Recent Activity</div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Client ID</th>
+                                <th>Status</th>
+                                <th>Last Contact</th>
+                                <th>Next Appointment</th>
+                                <th>Priority</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CMH-2024-001</td>
+                                <td><span class="status-indicator status-active"></span>Active</td>
+                                <td>2024-01-15</td>
+                                <td>2024-01-22</td>
+                                <td>Standard</td>
+                            </tr>
+                            <tr>
+                                <td>CMH-2024-002</td>
+                                <td><span class="status-indicator status-critical"></span>Crisis</td>
+                                <td>2024-01-16</td>
+                                <td>2024-01-17</td>
+                                <td>High</td>
+                            </tr>
+                            <tr>
+                                <td>CMH-2024-003</td>
+                                <td><span class="status-indicator status-pending"></span>Pending</td>
+                                <td>2024-01-10</td>
+                                <td>2024-01-20</td>
+                                <td>Medium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Intake Form Tab -->
+            <div id="intake-tab" class="tab-content hidden">
+                <div class="form-container">
+                    <div class="section-title">Client Intake Form</div>
+                    
+                    <div class="form-section">
+                        <h3 class="section-title">Basic Information</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Client ID</label>
+                                <input type="text" class="form-input" placeholder="Auto-generated" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-input" placeholder="Enter first name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-input" placeholder="Enter last name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-input" placeholder="(555) 123-4567">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-input" placeholder="client@email.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3 class="section-title">Clinical Assessment</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Primary Diagnosis</label>
+                                <select class="form-select">
+                                    <option>Select diagnosis</option>
+                                    <option>Major Depressive Disorder</option>
+                                    <option>Generalized Anxiety Disorder</option>
+                                    <option>Bipolar Disorder</option>
+                                    <option>PTSD</option>
+                                    <option>Substance Use Disorder</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Risk Level</label>
+                                <select class="form-select">
+                                    <option>Low</option>
+                                    <option>Medium
